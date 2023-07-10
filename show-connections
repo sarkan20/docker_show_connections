@@ -1,0 +1,16 @@
+#!/bin/bash
+if [ -z "$1" ];
+	then 
+	echo "No argments supplied"
+	exit 0
+elif [ "$2" == "-s" ];
+	then
+	cpid=$(docker inspect -f '{{.State.Pid}}' $1)
+	result=$(nsenter -t $cpid -n netstat -aut | grep ":" | wc -l)
+	echo $result
+	exit 0
+fi
+cpid=$(docker inspect -f '{{.State.Pid}}' $1)
+echo $cpid
+nsenter -t $cpid -n netstat 
+exit 0
