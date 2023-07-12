@@ -6,7 +6,7 @@ if [ -z "$1" ];
 elif [ "$2" == "-s" ];
 	then
 	cpid=$(docker inspect -f '{{.State.Pid}}' $1)
-	result=$(nsenter -t $cpid -n netstat -aut | grep ":" | wc -l)
+	result=$(nsenter -t $cpid -n netstat -aut | grep ":" | awk 'END {print NR}')
 	echo $result
 	exit 0
 fi
